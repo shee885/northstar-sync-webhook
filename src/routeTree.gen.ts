@@ -10,33 +10,44 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicNorthstarInventoryWebhookRouteImport } from './routes/api/public/northstar/inventory-webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicNorthstarInventoryWebhookRoute =
+  ApiPublicNorthstarInventoryWebhookRouteImport.update({
+    id: '/api/public/northstar/inventory-webhook',
+    path: '/api/public/northstar/inventory-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/northstar/inventory-webhook': typeof ApiPublicNorthstarInventoryWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/northstar/inventory-webhook': typeof ApiPublicNorthstarInventoryWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/northstar/inventory-webhook': typeof ApiPublicNorthstarInventoryWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/public/northstar/inventory-webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/public/northstar/inventory-webhook'
+  id: '__root__' | '/' | '/api/public/northstar/inventory-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicNorthstarInventoryWebhookRoute: typeof ApiPublicNorthstarInventoryWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +59,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/northstar/inventory-webhook': {
+      id: '/api/public/northstar/inventory-webhook'
+      path: '/api/public/northstar/inventory-webhook'
+      fullPath: '/api/public/northstar/inventory-webhook'
+      preLoaderRoute: typeof ApiPublicNorthstarInventoryWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicNorthstarInventoryWebhookRoute:
+    ApiPublicNorthstarInventoryWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
